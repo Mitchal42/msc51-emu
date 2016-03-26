@@ -7,7 +7,7 @@ public class DataType {
     private Bit[] bits;
     private int count;
 
-    public DataType(int count, long data) throws Exception {
+    public DataType(int count, long data) {
         this.count = count;
         bits = new Bit[count];
 
@@ -35,14 +35,14 @@ public class DataType {
             return bits[index];
     }
 
-    public void setOne(int index, byte value) throws Exception {
+    public void setOne(int index, byte value) {
         if(index >= count)
             throw new ArrayIndexOutOfBoundsException();
         else
             bits[index].setValue(value);
     }
 
-    public DataType get(int from, int to) throws Exception {
+    public DataType get(int from, int to) {
         if(from  > to) {
             int temp = from; from = to; to = temp;
         }
@@ -57,7 +57,7 @@ public class DataType {
         return res;
     }
 
-    public void set(int from, int to, DataType value) throws Exception {
+    public void set(int from, int to, DataType value) {
         if(from  > to) {
             int temp = from; from = to; to = temp;
         }
