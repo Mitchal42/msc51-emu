@@ -28,40 +28,13 @@ public class Msc51 {
         }
     }
 
-    enum aluOp {
-        NOP((byte)0),
-        AND(),
-        OR(),
-        ADD(),
-        ADDC(),
-        SUBB();
-
-        byte state;
-
-        aluOp(byte i) {
-            state = i;
-        }
-
-        aluOp() {
-
-        }
-
-        public void set() {
-            state = 1;
-        }
-
-        public void clear() {
-            state = 0;
-        }
-    }
-
     private DataType wrk1, wrk2; //Адресные и рабочие регистры
     private DataType pc; //16-разрядный программный счетчик
     private int ra, rb; //регистры временного хранения операндов
     private DataType ir; //регистр инструкций предназначен для хранения параметров команды
 
-    private boolean intrFlag; //прерываний нет :)
-    private int intN;
+//    private boolean intrFlag; прерываний нет :)
+//    private int intN;
 
     private List<DataType> data, //Оперативная память данных
             xData, //Постоянная память программ и констант
@@ -118,13 +91,46 @@ public class Msc51 {
         data.set(dphA, new DataType(8, dptr.toNumber() >> 8));
     }
 
+    public DataType getPc() {
+        return pc;
+    }
+    public void setPc(DataType pc) {
+        this.pc = pc;
+    }
+
+    public int getCycle() {
+        return cycle;
+    }
+
+    public List<DataType> getData() {
+        return data;
+    }
+
+    public List<DataType> getCode() {
+        return code;
+    }
+    public void setCode(List<Long> code) {
+        for (int i = 0; i < 256; i++)
+            if(code.size() <= i)
+                break;
+            else
+                this.code.set(i, this.code.get(i).setBits(code.get(i)));
+    }
+
+    public List<DataType> getxData() {
+        return xData;
+    }
+
     public Msc51() {
         data = new ArrayList<>(256);
-        for (int i = 0; i < 256; i++) data.add(new DataType(8, 0));
+        for (int i = 0; i < 256; i++)
+            data.add(new DataType(8, 0));
         xData = new ArrayList<>(256);
-        for (int i = 0; i < 256; i++) xData.add(new DataType(8, 0));
+        for (int i = 0; i < 256; i++)
+            xData.add(new DataType(8, 0));
         code = new ArrayList<>(256);
-        for (int i = 0; i < 256; i++) code.add(new DataType(8, 0));
+        for (int i = 0; i < 256; i++)
+            code.add(new DataType(8, 0));
 
         wrk1 = new DataType(8, 0);
         wrk2 = new DataType(8, 0);

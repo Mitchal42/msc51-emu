@@ -32,6 +32,21 @@ public class DataType {
         return result;
     }
 
+    public String toBinaryString() {
+        StringBuilder res = new StringBuilder();
+        if(count % 2 == 0)
+            for(int i = 0; i < count; i+=2) {
+                res.append(bits[i].getValue());
+                res.append(bits[i+1].getValue());
+                res.append(" ");
+            }
+        else
+            for(int i = 0; i < count; i++) {
+                res.append(bits[i].getValue());
+            }
+        return res.toString();
+    }
+
     public Bit getOne(int index) {
         if(index >= count)
             throw new ArrayIndexOutOfBoundsException();
