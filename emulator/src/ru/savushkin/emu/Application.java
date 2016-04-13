@@ -83,27 +83,33 @@ public class Application {
                         cpu.execute();
                         break;
                     case "7":
-                        System.out.println("Выберите регистр\n" +
+                        System.out.print("Выберите регистр\n" +
                                 "Acc - 0\n" +
                                 "B - 1\n" +
                                 "SP - 2\n" +
                                 "PC - 3\n" +
-                                "DPTR - 4\n");
+                                "DPTR - 4\n" +
+                                "$ ");
                         try {
                             switch (br.readLine()) {
                                 case "0":
+                                    System.out.print("$ ");
                                     cpu.setAcc(cpu.getAcc().setBits(Long.decode(br.readLine())));
                                     break;
                                 case "1":
+                                    System.out.print("$ ");
                                     cpu.setB(cpu.getB().setBits(Long.decode(br.readLine())));
                                     break;
                                 case "2":
+                                    System.out.print("$ ");
                                     cpu.setSp(cpu.getSp().setBits(Long.decode(br.readLine())));
                                     break;
                                 case "3":
+                                    System.out.print("$ ");
                                     cpu.setPc(cpu.getPc().setBits(Long.decode(br.readLine())));
                                     break;
                                 case "4":
+                                    System.out.print("$ ");
                                     cpu.setDptr(cpu.getDptr().setBits(Long.decode(br.readLine())));
                                     break;
                                 default:
