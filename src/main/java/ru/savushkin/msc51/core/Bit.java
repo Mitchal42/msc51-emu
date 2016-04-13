@@ -1,4 +1,4 @@
-package ru.savushkin.emu;
+package ru.savushkin.msc51.core;
 
 /**
  * Created by ivan on 24.03.2016.

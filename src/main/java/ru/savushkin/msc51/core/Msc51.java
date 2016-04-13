@@ -1,4 +1,4 @@
-package ru.savushkin.emu;
+package ru.savushkin.msc51.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +121,42 @@ public class Msc51 {
         return xData;
     }
 
+    public DataType getRj(int j) {
+        long res;
+        switch (j) {
+            case 0:
+                res = data.get((int) (this.getPsw().get(pswBit.RS0.getAddres(), pswBit.RS1.getAddres()).toNumber() * 0x8)).toNumber();
+                break;
+            case 1:
+                res = data.get((int) (this.getPsw().get(pswBit.RS0.getAddres(), pswBit.RS1.getAddres()).toNumber() * 0x8 + 1)).toNumber();
+                break;
+            default:
+                return null;
+        }
+        return new DataType(8, res);
+    }
+    public void setRj(int j, DataType val) {
+        switch (j) {
+            case 0:
+                data.set((int) (this.getPsw().get(pswBit.RS0.getAddres(), pswBit.RS1.getAddres()).toNumber() * 0x8),
+                        new DataType(8, val.toNumber()));
+                break;
+            case 1:
+                data.set((int) (this.getPsw().get(pswBit.RS0.getAddres(), pswBit.RS1.getAddres()).toNumber() * 0x8 + 1),
+                        new DataType(8, val.toNumber()));
+                break;
+            default:
+                return;
+        }
+    }
+    public void setBank(long bankNum) {
+        DataType psw = this.getPsw();
+
+        psw.set(pswBit.RS0.getAddres(), pswBit.RS1.getAddres(), new DataType(2, bankNum));
+
+        setPsw(psw);
+    }
+
     public Msc51() {
         data = new ArrayList<>(256);
         for (int i = 0; i < 256; i++)
@@ -138,9 +174,6 @@ public class Msc51 {
 
         pc = new DataType(16, 0);
         setSp(new DataType(8, 0x07));
-
-//        acc = new DataType(8, 0);
-//        psw = new DataType(8, 0);
     }
 
     public void execute() {
@@ -155,7 +188,7 @@ public class Msc51 {
 
                 case 0x46:
                 case 0x47:
-                    orlARi();
+                    orlARj();
                     break;
 
                 case 0x44:
@@ -194,7 +227,7 @@ public class Msc51 {
         cycle = 0;
     }
 
-    void orlARi() { // orl a, @Ri
+    void orlARj() { // orl a, @Ri
         switch (cycle)
         {
             // BusA=Bank+IR[0];BusB8=Data[BusA];Wrk1Src=BusB;SetWrk1;Romm++;
