@@ -35,8 +35,8 @@ public class Msc51Test {
 
     @Test
     public void orlARjTest() {
-        msc51.setBank(0);
         msc51.setCode(Arrays.asList(0x46L));
+        msc51.setRj(0, new DataType(8, 0x6D));
         msc51.setAcc(msc51.getAcc().setBits(0x52L));
         do {
             msc51.execute();
