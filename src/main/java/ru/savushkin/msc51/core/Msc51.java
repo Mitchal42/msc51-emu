@@ -3,9 +3,6 @@ package ru.savushkin.msc51.core;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ivan on 24.03.2016.
- */
 public class Msc51 {
     enum pswBit {
         P(0), //содержит признаки результата арифметических операций
@@ -202,7 +199,7 @@ public class Msc51 {
         cycle = 0;
     }
 
-    void orlARj() { // orl a, @Ri
+    void orlARj() { // orl a, @Rj
         switch (cycle)
         {
             // BusA=Bank+IR[0];BusB8=Data[BusA];Wrk1Src=BusB;SetWrk1;Romm++;
@@ -220,7 +217,7 @@ public class Msc51 {
 
             // AluOp=OR;Alu->BusB;BusB->Acc;Goto;Romm=@Next
             case 3:
-                setAcc(getAcc().setBits((ra + rb) & 0xff));
+                setAcc(getAcc().setBits((ra | rb) & 0xff));
                 cycle = 0;
                 break;
         }
