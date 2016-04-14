@@ -105,6 +105,9 @@ public class Msc51 {
     public List<DataType> getData() {
         return data;
     }
+    public void setData(int pos, DataType val) {
+        data.set(pos, val);
+    }
 
     public List<DataType> getCode() {
         return code;
@@ -121,34 +124,6 @@ public class Msc51 {
         return xData;
     }
 
-    public DataType getRj(int j) {
-        long res;
-        switch (j) {
-            case 0:
-                res = data.get((int) (this.getPsw().get(pswBit.RS0.getAddres(), pswBit.RS1.getAddres()).toNumber() * 0x8)).toNumber();
-                break;
-            case 1:
-                res = data.get((int) (this.getPsw().get(pswBit.RS0.getAddres(), pswBit.RS1.getAddres()).toNumber() * 0x8 + 1)).toNumber();
-                break;
-            default:
-                return null;
-        }
-        return new DataType(8, res);
-    }
-    public void setRj(int j, DataType val) {
-        switch (j) {
-            case 0:
-                data.set((int) (this.getPsw().get(pswBit.RS0.getAddres(), pswBit.RS1.getAddres()).toNumber() * 0x8),
-                        new DataType(8, val.toNumber()));
-                break;
-            case 1:
-                data.set((int) (this.getPsw().get(pswBit.RS0.getAddres(), pswBit.RS1.getAddres()).toNumber() * 0x8 + 1),
-                        new DataType(8, val.toNumber()));
-                break;
-            default:
-                return;
-        }
-    }
     public void setBank(long bankNum) {
         DataType psw = this.getPsw();
 

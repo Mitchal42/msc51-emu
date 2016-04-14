@@ -36,12 +36,13 @@ public class Msc51Test {
     @Test
     public void orlARjTest() {
         msc51.setCode(Arrays.asList(0x46L));
-        msc51.setRj(0, new DataType(8, 0x6D));
         msc51.setAcc(msc51.getAcc().setBits(0x52L));
+        msc51.setData(0x0, new DataType(8, 0x6D));
+        msc51.setData(0x49, new DataType(8, 0x59));
         do {
             msc51.execute();
         } while (msc51.getCycle() != 0);
         assertEquals("PC is't correct", 1, msc51.getPc().toNumber());
-        assertEquals("ACC is't correct", 0x58L, msc51.getAcc().toNumber());
+        assertEquals("ACC is't correct", "0x58", "0x" + Long.toHexString(msc51.getAcc().toNumber()));
     }
 }
