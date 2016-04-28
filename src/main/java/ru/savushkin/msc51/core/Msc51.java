@@ -164,7 +164,11 @@ public class Msc51 {
                     break;
 
                 case 0x44:
-                    orlImmediate();
+                    orlAImmediate();
+                    break;
+
+                case 0x45:
+                    orlADirect();
                     break;
 
                 case 0xd4:
@@ -172,7 +176,7 @@ public class Msc51 {
                     break;
 
                 case 0x85:
-                    movdirdir();
+                    movDirDir();
                     break;
 
                 case 0x86:
@@ -182,7 +186,7 @@ public class Msc51 {
 
                 case 0xb6:
                 case 0xb7:
-                    cjneRiimrel();
+                    cjneRiImRel();
                     break;
 
             }
@@ -223,7 +227,7 @@ public class Msc51 {
         }
     }
 
-    void orlImmediate()
+    void orlAImmediate()
     {
         switch (cycle)
         {
@@ -235,6 +239,24 @@ public class Msc51 {
                 break;
 
             // AluOp=OR;Alu->BusB;BusB->Acc;Goto;Romm=@Next
+            case 2:
+                setAcc(getAcc().setBits(ra | rb));
+                cycle=0;
+                break;
+
+        }
+    }
+
+    void orlADirect()
+    {
+        switch (cycle)
+        {
+            case 1:
+                ra = (int) getAcc().toNumber();
+                rb = (int) this.getPsw().toNumber();
+                cycle++;
+                break;
+
             case 2:
                 setAcc(getAcc().setBits(ra | rb));
                 cycle=0;
@@ -287,7 +309,7 @@ public class Msc51 {
         }
     }
 
-    void movdirdir() // mov dest_direct, src_direct
+    void movDirDir() // mov dest_direct, src_direct
     {
         switch (cycle)
         {
@@ -348,7 +370,7 @@ public class Msc51 {
         }
     }
 
-    void cjneRiimrel()
+    void cjneRiImRel()
     {
         switch (cycle)
         {
@@ -476,6 +498,7 @@ public class Msc51 {
             case 0xd4: return String.format("%02X: da a", instruction);
             case 0x46:  // orl a, ri
             case 0x47: return String.format("%02X: orl a, @R%d", instruction, instruction%2);
+            case 0x45: return String.format("%02X: orl a, direct", instruction);
             case 0x44: return String.format("%02X: orl a, #0x%02X", instruction, code.get(address + 1).toNumber());
             case 0x85: return String.format("%02X: mov 0x%02X, 0x%02X", instruction, code.get(address + 2).toNumber(), code.get(address + 1).toNumber());
             case 0x86:
